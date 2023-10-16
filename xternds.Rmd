@@ -1,0 +1,98 @@
+---
+title: "xtern data science"
+author: "Jason Chen"
+date: '2023-10-15'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+install.packages(c("tidyverse", "leaflet", "ggplot2"))
+```
+
+```{r}
+library(tidyverse)
+library(leaflet)
+library(ggplot2)
+```
+```{r}
+food_trucks <- read.csv("xternds.csv")
+head(food_trucks)
+names(food_trucks)
+summary(food_trucks)
+```
+
+```{r}
+food_truck_df <- data.frame(
+  Name = food_trucks$Name,
+  Address = food_trucks$Address,
+  Rating = food_trucks$Rating,
+  Website = food_trucks$Website,
+  Hour = food_trucks$Hour,
+  Cuisine = food_trucks$Cuisine
+)
+```
+
+
+```{r}
+ggplot(food_truck_df, aes(x = Rating)) +
+  geom_histogram(binwidth = 0.1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Food Truck Ratings",
+       x = "Rating",
+       y = "Count") +
+  theme_minimal()
+boxplot(body_mass_g~species,pendata, ylab="Body Mass (grams)")
+mean_rating <- mean(food_truck_df$Rating)
+mean_rating
+```
+**The histogram illustrating the distribution of food truck ratings suggests that within the sample analyzed, a five-star rating was the most commonly given. This implies that the food trucks in Indianapolis in this sample generally exhibited high quality, and this trend was consistent throughout the city. The mean rating of 4.56, which is well above average, further leads to the conclusion that customers generally had favorable experiences with food trucks within this sample.**
+
+```{r}
+custom_order <- c(8,9,1,4,5,10,7)
+custom_order1 <- c(6, 2, 3)
+
+reordered_data <- food_trucks[custom_order, ]
+reordered_data1 <- food_trucks[custom_order1, ]
+# Leaflet map
+food_truck_map <- leaflet(reordered_data) %>%
+  addTiles() %>%
+  addMarkers(
+    lng = ~Longitude,
+    lat = ~Latitude,
+    popup = ~paste("Name: ", Name, "<br> Address: ", Address, "<br> Rating: ", Rating, "<br> Website: ", Website, "<br> Hour: ", Hour, "<br> Cuisine: ", Cuisine),
+    label = ~Name
+  )
+food_truck_map1 <- leaflet(reordered_data1) %>%
+  addTiles() %>%
+  addMarkers(
+    lng = ~Longitude,
+    lat = ~Latitude,
+    popup = ~paste("Name: ", Name, "<br> Address: ", Address, "<br> Rating: ", Rating, "<br> Website: ", Website, "<br> Hour: ", Hour, "<br> Cuisine: ", Cuisine),
+    label = ~Name
+  ) %>%
+  addProviderTiles("Esri.WorldStreetMap")
+
+# Print the map
+print(food_truck_map)
+print(food_truck_map1)
+```
+```{r}
+food_truck_map <- food_truck_map %>%
+  addPolylines(
+    lng = ~Longitude,
+    lat = ~Latitude,
+    data = reordered_data,
+    color = "red",  # You can customize the color
+    group = ~reordered_data
+  )
+print(food_truck_map)
+food_truck_map1 <- food_truck_map1 %>%
+  addPolylines(
+    lng = ~Longitude,
+    lat = ~Latitude,
+    data = reordered_data1,
+    color = "blue",  # You can customize the color
+    group = ~reordered_data1
+  )
+print(food_truck_map1)
+```
+**Two interactive maps were created to show the travel plans for Day 1 and the travel plans for Day 2. Both maps are interactive; when a point (food truck) is selected, a pop-up text appears that provides the information for that food truck (name, address, rating, website, hour, cuisine).**
