@@ -91,4 +91,4 @@ food_truck_map1 <- food_truck_map1 %>%
   )
 print(food_truck_map1)
 ```
-**Two interactive maps were created to show the travel plans for Day 1 and the travel plans for Day 2. Both maps are interactive; when a point (food truck) is selected, a pop-up text appears that provides the information for that food truck (name, address, rating, website, hour, cuisine).**
+**Two maps were created to show the travel plans for Day 1 and the travel plans for Day 2. Both maps are interactive; when a point (food truck) on the map is selected, a pop-up text appears that provides the information for that food truck (name, address, rating, website, hour, cuisine).**
