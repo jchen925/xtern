@@ -21,17 +21,6 @@ names(food_trucks)
 summary(food_trucks)
 ```
 
-```{r}
-food_truck_df <- data.frame(
-  Name = food_trucks$Name,
-  Address = food_trucks$Address,
-  Rating = food_trucks$Rating,
-  Website = food_trucks$Website,
-  Hour = food_trucks$Hour,
-  Cuisine = food_trucks$Cuisine
-)
-```
-
 
 ```{r}
 ggplot(food_truck_df, aes(x = Rating)) +
@@ -45,6 +34,8 @@ mean_rating <- mean(food_truck_df$Rating)
 mean_rating
 ```
 **The histogram illustrating the distribution of food truck ratings suggests that within the sample analyzed, a five-star rating was the most commonly given. This implies that the food trucks in Indianapolis in this sample generally exhibited high quality, and this trend was consistent throughout the city. The mean rating of 4.56, which is well above average, further leads to the conclusion that customers generally had favorable experiences with food trucks within this sample.**
+
+
 
 ```{r}
 custom_order <- c(8,9,1,4,5,10,7)
@@ -75,6 +66,11 @@ food_truck_map1 <- leaflet(reordered_data1) %>%
 print(food_truck_map)
 print(food_truck_map1)
 ```
+
+
+
+
+
 ```{r}
 food_truck_map <- food_truck_map %>%
   addPolylines(
